@@ -24,36 +24,57 @@
                 <table class="min-w-full text-left text-sm font-light">
                     <thead>
                     <tr class="border-b bg-gray-400 font-medium">
-                        <th scope="col" class="px-6 py-4 text-center" colspan="3">Type Of Restaurant</th>
+                        <th scope="col" class="px-6 py-4 text-center" colspan="2">Type Of Restaurant</th>
+                        {{--   Create Button   --}}
+                        <th scope="col" class="px-6 py-4">
+                            <div>
+                                <a href="{{ url( 'newRestaurantType') }}">
+                                    <button type="submit" class="inline-flex items-center px-4 py-2 bg-cyan-400 border border-transparent
+  rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-cyan-500
+   focus:bg-cyan-500 active:bg-cyan-600 focus:outline-none focus:ring-2 focus:ring-indigo-500
+    focus:ring-offset-2 transition ease-in-out duration-150">Add a New
+                                    </button>
+                                </a>
+                            </div>
+                        </th>
                     </tr>
                     <tr class="border-b bg-gray-400 font-medium">
                         <th scope="col" class="px-6 py-4">#</th>
                         <th scope="col" class="px-6 py-4">Title</th>
-                        <th scope="col" class="px-6 py-4" colspan="1">Operation</th>
+                        <th scope="col" class="px-6 py-4">Operation</th>
                     </tr>
                     </thead>
                     <tbody>
                     @php $counter = 1; @endphp
-                    @foreach( RestaurantType::all() as $category )
+                    @foreach( RestaurantType::all() as $type )
                         <tr class="border-b bg-neutral-100 ">
                             <td class="whitespace-nowrap px-6 py-4 font-medium">{{ $counter++ }}</td>
-                            <td class="whitespace-nowrap px-6 py-4">{{ $category->title }}</td>
-                            <td class="whitespace-nowrap px-6 py-4">
-                                <a href="{{ url( rout('restaurantTypeEdit/'.$category->id) ) }}">
-                                    <button type="submit" class="inline-flex items-center px-4 py-2 bg-red-700 border border-transparent
-  rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-red-600
-   focus:bg-red-600 active:bg-red-900 focus:outline-none focus:ring-2 focus:ring-indigo-500
-    focus:ring-offset-2 transition ease-in-out duration-150">delete</button>
-                                </a>
+                            <td class="whitespace-nowrap px-6 py-4">{{ $type->title }}</td>
+                            <td class="whitespace-nowrap flex gap-4 px-6 py-4">
 
-                                <form action="{{ route('restaurantTypeDelete') }}" method="post">
-                                    @csrf
-                                    <input name="id" type="hidden" value="{{ $category->id }}">
-                                    <button type="submit" class="inline-flex items-center px-4 py-2 bg-red-700 border border-transparent
+                                {{--   Edit Button   --}}
+                                <div>
+                                    <a href="{{ url( 'restaurantTypeEdit/'.$type->id ) }}">
+                                        <button type="submit" class="inline-flex items-center px-4 py-2 bg-yellow-400 border border-transparent
+  rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-yellow-500
+   focus:bg-yellow-500 active:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-indigo-500
+    focus:ring-offset-2 transition ease-in-out duration-150">Edit
+                                        </button>
+                                    </a>
+                                </div>
+
+                                {{--   Delete Button   --}}
+                                <div>
+                                    <form action="{{ url('restaurantTypeDelete') }}" method="post">
+                                        @csrf
+                                        <input name="id" type="hidden" value="{{ $type->id }}">
+                                        <button type="submit" class="inline-flex items-center px-4 py-2 bg-red-700 border border-transparent
   rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-red-600
    focus:bg-red-600 active:bg-red-900 focus:outline-none focus:ring-2 focus:ring-indigo-500
-    focus:ring-offset-2 transition ease-in-out duration-150">delete</button>
-                                </form>
+    focus:ring-offset-2 transition ease-in-out duration-150">delete
+                                        </button>
+                                    </form>
+                                </div>
                             </td>
                         </tr>
                     @endforeach
@@ -64,6 +85,7 @@
     </div>
 </div>
 
+
 <div class="flex flex-col mx-8">
     <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
         <div class="inline-block min-w-full py-2 sm:px-6 lg:px-8">
@@ -71,36 +93,57 @@
                 <table class="min-w-full text-left text-sm font-light">
                     <thead>
                     <tr class="border-b bg-gray-400 font-medium">
-                        <th scope="col" class="px-6 py-4 text-center" colspan="3">Categories Of Foods</th>
+                        <th scope="col" class="px-6 py-4 text-center" colspan="2">Categories Of Foods</th>
+                        {{--   Create Button   --}}
+                        <th scope="col" class="px-6 py-4">
+                            <div>
+                                <a href="{{ url( 'newFoodCategory') }}">
+                                    <button type="submit" class="inline-flex items-center px-4 py-2 bg-cyan-400 border border-transparent
+  rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-cyan-500
+   focus:bg-cyan-500 active:bg-cyan-600 focus:outline-none focus:ring-2 focus:ring-indigo-500
+    focus:ring-offset-2 transition ease-in-out duration-150">Add a New
+                                    </button>
+                                </a>
+                            </div>
+                        </th>
                     </tr>
                     <tr class="border-b bg-gray-400 font-medium">
                         <th scope="col" class="px-6 py-4">#</th>
                         <th scope="col" class="px-6 py-4">Title</th>
-                        <th scope="col" class="px-6 py-4" colspan="1">Operation</th>
+                        <th scope="col" class="px-6 py-4">Operation</th>
                     </tr>
                     </thead>
                     <tbody>
                     @php $counter = 1; @endphp
-                    @foreach( FoodCategory::all() as $type )
+                    @foreach( FoodCategory::all() as $category )
                         <tr class="border-b bg-neutral-100 ">
                             <td class="whitespace-nowrap px-6 py-4 font-medium">{{ $counter++ }}</td>
-                            <td class="whitespace-nowrap px-6 py-4">{{ $type->title }}</td>
-                            <td class="whitespace-nowrap px-6 py-4">
-                                <a href="{{ url( rout('restaurantTypeEdit/'.$type->id) ) }}">
-                                    <button type="submit" class="inline-flex items-center px-4 py-2 bg-red-700 border border-transparent
-  rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-red-600
-   focus:bg-red-600 active:bg-red-900 focus:outline-none focus:ring-2 focus:ring-indigo-500
-    focus:ring-offset-2 transition ease-in-out duration-150">delete</button>
-                                </a>
+                            <td class="whitespace-nowrap px-6 py-4">{{ $category->title }}</td>
+                            <td class="whitespace-nowrap flex gap-4 px-6 py-4">
 
-                                <form action="{{ route('restaurantTypeDelete') }}" method="post">
-                                    @csrf
-                                    <input name="id" type="hidden" value="{{ $type->id }}">
-                                    <button type="submit" class="inline-flex items-center px-4 py-2 bg-red-700 border border-transparent
+                                {{--   Edit Button   --}}
+                                <div>
+                                    <a href="{{ url( 'foodCategoryEdit/'.$category->id ) }}">
+                                        <button type="submit" class="inline-flex items-center px-4 py-2 bg-yellow-400 border border-transparent
+  rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-yellow-500
+   focus:bg-yellow-500 active:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-indigo-500
+    focus:ring-offset-2 transition ease-in-out duration-150">Edit
+                                        </button>
+                                    </a>
+                                </div>
+
+                                {{--   Create Button   --}}
+                                <div>
+                                    <form action="{{ url('foodCategoryDelete') }}" method="post">
+                                        @csrf
+                                        <input name="id" type="hidden" value="{{ $category->id }}">
+                                        <button type="submit" class="inline-flex items-center px-4 py-2 bg-red-700 border border-transparent
   rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-red-600
    focus:bg-red-600 active:bg-red-900 focus:outline-none focus:ring-2 focus:ring-indigo-500
-    focus:ring-offset-2 transition ease-in-out duration-150">delete</button>
-                                </form>
+    focus:ring-offset-2 transition ease-in-out duration-150">delete
+                                        </button>
+                                    </form>
+                                </div>
                             </td>
                         </tr>
                     @endforeach

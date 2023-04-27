@@ -20,7 +20,7 @@ class RestaurantTypeController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.createRestaurantType');
     }
 
     /**
@@ -28,7 +28,11 @@ class RestaurantTypeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $restaurantType = new RestaurantType();
+        $restaurantType->title = $request->title;
+        $restaurantType->save();
+
+        return redirect()->route('dashboard');
     }
 
     /**
@@ -50,11 +54,13 @@ class RestaurantTypeController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request)
     {
-        $type = RestaurantType::find($id) ->title;
+        $type = RestaurantType::find($request->id);
         $type->title = $request->title;
         $type->save();
+
+        return redirect()->route('dashboard');
     }
 
     /**

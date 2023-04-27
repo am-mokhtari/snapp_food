@@ -24,26 +24,40 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
+//    profile
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
+//    dashboard
     Route::resource('/dashboard/admin', \App\Http\Controllers\AdminController::class);
     Route::resource('/dashboard/seller', \App\Http\Controllers\SellerController::class);
 
+//    restaurant type
     Route::get('/restaurantTypeEdit/{id}', [\App\Http\Controllers\RestaurantTypeController::class, 'edit'])
         ->name('restaurantTypeEdit');
     Route::post('/restaurantTypeEdit', [\App\Http\Controllers\RestaurantTypeController::class, 'update'])
         ->name('restaurantTypeEdit');
+
     Route::post('/restaurantTypeDelete', [\App\Http\Controllers\RestaurantTypeController::class, 'destroy'])
         ->name('restaurantTypeDelete');
 
-    Route::get('/foodCategoryEdit/{id}', [\App\Http\Controllers\RestaurantTypeController::class, 'edit'])
+    Route::get('/newRestaurantType', [\App\Http\Controllers\RestaurantTypeController::class, 'create'])
+        ->name('newRestaurantType');
+    Route::post('/newRestaurantType', [\App\Http\Controllers\RestaurantTypeController::class, 'store'])
+        ->name('newRestaurantType');
+
+//    food category
+    Route::get('/foodCategoryEdit/{id}', [\App\Http\Controllers\FoodCategoryController::class, 'edit'])
         ->name('foodCategoryEdit');
-    Route::post('/foodCategoryEdit', [\App\Http\Controllers\RestaurantTypeController::class, 'update'])
+    Route::post('/foodCategoryEdit', [\App\Http\Controllers\FoodCategoryController::class, 'update'])
         ->name('foodCategoryEdit');
-    Route::post('/foodCategoryDelete', [\App\Http\Controllers\RestaurantTypeController::class, 'destroy'])
+    Route::post('/foodCategoryDelete', [\App\Http\Controllers\FoodCategoryController::class, 'destroy'])
         ->name('foodCategoryDelete');
+    Route::get('/newFoodCategory', [\App\Http\Controllers\FoodCategoryController::class, 'create'])
+        ->name('newFoodCategory');
+    Route::post('/newFoodCategory', [\App\Http\Controllers\FoodCategoryController::class, 'store'])
+        ->name('newFoodCategory');
 });
 
 require __DIR__.'/auth.php';
