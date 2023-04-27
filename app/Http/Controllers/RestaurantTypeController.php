@@ -44,7 +44,7 @@ class RestaurantTypeController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        return view('admin.editRestaurantType', compact('id'));
     }
 
     /**
@@ -52,7 +52,9 @@ class RestaurantTypeController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $type = RestaurantType::find($id) ->title;
+        $type->title = $request->title;
+        $type->save();
     }
 
     /**

@@ -31,8 +31,19 @@ Route::middleware('auth')->group(function () {
     Route::resource('/dashboard/admin', \App\Http\Controllers\AdminController::class);
     Route::resource('/dashboard/seller', \App\Http\Controllers\SellerController::class);
 
+    Route::get('/restaurantTypeEdit/{id}', [\App\Http\Controllers\RestaurantTypeController::class, 'edit'])
+        ->name('restaurantTypeEdit');
+    Route::post('/restaurantTypeEdit', [\App\Http\Controllers\RestaurantTypeController::class, 'update'])
+        ->name('restaurantTypeEdit');
     Route::post('/restaurantTypeDelete', [\App\Http\Controllers\RestaurantTypeController::class, 'destroy'])
-    ->name('restaurantTypeDelete');
+        ->name('restaurantTypeDelete');
+
+    Route::get('/foodCategoryEdit/{id}', [\App\Http\Controllers\RestaurantTypeController::class, 'edit'])
+        ->name('foodCategoryEdit');
+    Route::post('/foodCategoryEdit', [\App\Http\Controllers\RestaurantTypeController::class, 'update'])
+        ->name('foodCategoryEdit');
+    Route::post('/foodCategoryDelete', [\App\Http\Controllers\RestaurantTypeController::class, 'destroy'])
+        ->name('foodCategoryDelete');
 });
 
 require __DIR__.'/auth.php';
