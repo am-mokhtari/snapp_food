@@ -31,10 +31,13 @@ class RegisteredUserController extends Controller
     public function store(Request $request): RedirectResponse
     {
         User::exists() ? $role = 'seller' : $role = 'admin';
+        $request->phone_number = '0' . strrev((str_split(strrev($request->phone_number), 10))[0]);
+
+
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:'.User::class],
-            'phone_number' => ['required', 'numeric', 'unique:'.User::class, 'regex:/^(09|989|9)\d{9}/i'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:' . User::class],
+            'phone_number' => ['required', 'numeric', 'unique:' . User::class, 'regex:/^(09|989|9)\d{9}/i'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 

@@ -19,7 +19,7 @@ return new class extends Migration {
                 table: 'restaurants', indexName: 'food_restaurant_id'
             );
             $table->foreignId('category_id')->constrained(
-                table: 'restaurants', indexName: 'food_category_id'
+                table: 'food_categories', indexName: 'food_category_id'
             );
             $table->integer('discount_percent')->nullable();
             $table->timestamps();

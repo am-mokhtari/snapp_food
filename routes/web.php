@@ -19,15 +19,20 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    $page = \Illuminate\Support\Facades\Auth::user()->role;
+    return redirect('/dashboard/' . $page);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
 
-Route::resource('a', a::class);
+    Route::resource('/dashboard/admin', \App\Http\Controllers\AdminController::class);
+    Route::resource('/dashboard/seller', \App\Http\Controllers\SellerController::class);
+
+    Route::post('/restaurantTypeDelete', [\App\Http\Controllers\RestaurantTypeController::class, 'destroy'])
+    ->name('restaurantTypeDelete');
+});
 
 require __DIR__.'/auth.php';

@@ -25,10 +25,8 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(LoginRequest $request): RedirectResponse
     {
-        if (isset($request->username) && is_numeric($request->username)) {
+        if (is_numeric($request->username)) {
             $request->username = '0' . strrev((str_split(strrev($request->username), 10))[0]);
-        } elseif (isset($request->phone_number)) {
-            $request->phone_number = '0' . strrev((str_split(strrev($request->phone_number), 10))[0]);
         }
 
         $request->authenticate();
@@ -51,4 +49,5 @@ class AuthenticatedSessionController extends Controller
 
         return redirect('/');
     }
+
 }
