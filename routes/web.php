@@ -19,8 +19,7 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function () {
-    $page = \Illuminate\Support\Facades\Auth::user()->role;
-    return redirect('/dashboard/' . $page);
+    return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {

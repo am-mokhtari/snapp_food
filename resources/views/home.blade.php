@@ -18,7 +18,7 @@
 {{--    @endif--}}
 
     <p class="text-center">
-        Welcome to our Karvash
+        Welcome to our site
         @auth
             {{ \Illuminate\Support\Facades\Auth::user()->name }}
         @endif
