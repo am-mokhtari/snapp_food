@@ -14,6 +14,4 @@ class Discount extends Model
         'percents',
         'expiration',
     ];
-
-
 }

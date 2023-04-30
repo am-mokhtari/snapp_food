@@ -8,4 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class Food extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'name',
+        'ingredient',
+        'restaurant_id',
+        'category_id',
+        'discount_percent',
+    ];
 }
