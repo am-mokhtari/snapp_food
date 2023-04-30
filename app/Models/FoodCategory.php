@@ -11,5 +11,10 @@ class FoodCategory extends Model
 
     public $timestamps = false;
 
-    protected $fillable = [];
+    protected $fillable = ['title'];
+
+    public function foods(): HasMany
+    {
+        return $this->hasMany(Food::class);
+    }
 }

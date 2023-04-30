@@ -16,4 +16,9 @@ class Restaurant extends Model
         'address',
         'account_number',
     ];
+
+    public function foods(): HasMany
+    {
+        return $this->hasMany(Food::class);
+    }
 }
