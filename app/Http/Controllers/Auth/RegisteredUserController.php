@@ -30,7 +30,7 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        User::exists() ? $role = 'seller' : $role = 'admin';
+        User::exists() ? $role = 'customer' : $role = 'admin';
         $request->phone_number = '0' . strrev((str_split(strrev($request->phone_number), 10))[0]);
 
 
