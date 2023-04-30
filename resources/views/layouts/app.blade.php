@@ -32,5 +32,7 @@
                 {{ $slot }}
             </main>
         </div>
+
+        <script src="/js/tailwind-style.js"></script>
     </body>
 </html>
