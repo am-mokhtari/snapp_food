@@ -15,11 +15,12 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('home');
+    return redirect()->route('dashboard');
 });
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    $role = \Illuminate\Support\Facades\Auth::user()->role;
+    return redirect('dashboard/' . $role);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
@@ -59,4 +60,4 @@ Route::middleware('auth')->group(function () {
         ->name('newFoodCategory');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
