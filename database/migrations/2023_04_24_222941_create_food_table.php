@@ -17,10 +17,10 @@ return new class extends Migration {
             $table->string('picture')->nullable();
             $table->foreignId('restaurant_id')->constrained(
                 table: 'restaurants', indexName: 'food_restaurant_id'
-            );
-            $table->foreignId('category_id')->constrained(
+            )->cascadeOnDelete();
+            $table->foreignId('category_id')->nullable()->constrained(
                 table: 'food_categories', indexName: 'food_category_id'
-            );
+            )->nullOnDelete();
             $table->integer('discount_percent')->nullable();
             $table->timestamps();
         });

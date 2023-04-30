@@ -16,10 +16,10 @@ return new class extends Migration
             $table->string('name');
             $table->foreignId('user_id')->constrained(
                 table: 'users', indexName: 'restaurants_user_id'
-            );
-            $table->foreignId('type_id')->constrained(
+            )->cascadeOnDelete();
+            $table->foreignId('type_id')->nullable()->constrained(
                 table: 'restaurant_types', indexName: 'restaurants_type_id'
-            );
+            )->nullOnDelete();
             $table->string('phone_number')->unique();
             $table->text('address');
             $table->string('account_number')->unique();
