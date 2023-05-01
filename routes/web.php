@@ -52,12 +52,28 @@ Route::middleware('auth')->group(function () {
         ->name('foodCategoryEdit');
     Route::post('/foodCategoryEdit', [\App\Http\Controllers\FoodCategoryController::class, 'update'])
         ->name('foodCategoryEdit');
+
     Route::post('/foodCategoryDelete', [\App\Http\Controllers\FoodCategoryController::class, 'destroy'])
         ->name('foodCategoryDelete');
+
     Route::get('/newFoodCategory', [\App\Http\Controllers\FoodCategoryController::class, 'create'])
         ->name('newFoodCategory');
     Route::post('/newFoodCategory', [\App\Http\Controllers\FoodCategoryController::class, 'store'])
         ->name('newFoodCategory');
+
+//    discount
+    Route::get('/discountCodeEdit/{id}', [\App\Http\Controllers\DiscountCodeController::class, 'edit'])
+        ->name('discountCodeEdit');
+    Route::post('/discountCodeEdit', [\App\Http\Controllers\DiscountCodeController::class, 'update'])
+        ->name('discountCodeEdit');
+
+    Route::post('/discountCodeDelete', [\App\Http\Controllers\DiscountCodeController::class, 'destroy'])
+        ->name('discountCodeDelete');
+
+    Route::get('/newDiscount', [\App\Http\Controllers\DiscountCodeController::class, 'create'])
+        ->name('newDiscount');
+    Route::post('/newDiscount', [\App\Http\Controllers\DiscountCodeController::class, 'store'])
+        ->name('newDiscount');
 });
 
 require __DIR__ . '/auth.php';
