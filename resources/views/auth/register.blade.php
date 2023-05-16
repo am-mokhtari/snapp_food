@@ -1,8 +1,8 @@
 <x-guest-layout>
-    <form method="POST" action="{{ route('register') }}">
-    @csrf
+    <form method="POST" action="{{ route('register') }}" onsubmit="modify()">
+        @csrf
 
-    <!-- Name -->
+        <!-- Name -->
         <div>
             <x-input-label for="name" :value="__('Name')"/>
             <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required
@@ -60,4 +60,13 @@
             </x-primary-button>
         </div>
     </form>
+    <script>
+        function modify() {
+            let phoneNumber = document.getElementById('phone_number').value;
+            let start = phoneNumber.length - 10;
+            phoneNumber = phoneNumber.slice(start, phoneNumber.length + 1);
+
+            document.getElementById('phone_number').value = phoneNumber;
+        }
+    </script>
 </x-guest-layout>
