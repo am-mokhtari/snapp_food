@@ -35,6 +35,7 @@ Route::middleware('auth')->group(function () {
     ->middleware('exist.restaurant.info');
 //    Route::resource('/dashboard/customer', \App\Http\Controllers\CustomerController::class);
 
+//        ADMIN
 //    restaurant type
     Route::get('/restaurantTypeEdit/{id}', [\App\Http\Controllers\RestaurantTypeController::class, 'edit'])
         ->name('restaurantTypeEdit');
@@ -77,5 +78,11 @@ Route::middleware('auth')->group(function () {
     Route::post('/newDiscount', [\App\Http\Controllers\DiscountCodeController::class, 'store'])
         ->name('newDiscount');
 });
+
+//   SELLER
+//     restaurant info
+Route::get('/restaurant/info/{id}', [\App\Http\Controllers\SellerController::class, 'edit'])
+    ->name('restaurant.info.edit');
+Route::post('/restaurant/{id}/info', [\App\Http\Controllers\SellerController::class, 'update']);
 
 require __DIR__ . '/auth.php';
