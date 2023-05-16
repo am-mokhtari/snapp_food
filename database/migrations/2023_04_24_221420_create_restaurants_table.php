@@ -20,9 +20,9 @@ return new class extends Migration
             $table->foreignId('type_id')->nullable()->constrained(
                 table: 'restaurant_types', indexName: 'restaurants_type_id'
             )->nullOnDelete();
-            $table->string('phone_number')->unique();
+            $table->string('phone_number');
             $table->text('address');
-            $table->string('account_number')->unique();
+            $table->string('account_number');
             $table->timestamps();
         });
     }
