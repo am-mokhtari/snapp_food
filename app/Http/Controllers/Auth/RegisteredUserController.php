@@ -9,7 +9,6 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\Rules;
 use Illuminate\View\View;
 
 class RegisteredUserController extends Controller
@@ -30,8 +29,6 @@ class RegisteredUserController extends Controller
     public function store(RegisterUserRequest $request): RedirectResponse
     {
         User::exists() ? $role = 'customer' : $role = 'admin';
-        $request->phone_number = '0' . strrev((str_split(strrev($request->phone_number), 10))[0]);
-
 
         $user = User::create([
             'name' => $request->name,
