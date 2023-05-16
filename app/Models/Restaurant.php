@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -11,6 +12,7 @@ class Restaurant extends Model
 
     protected $fillable = [
         'name',
+        'user_id',
         'type_id',
         'phone_number',
         'address',
@@ -20,5 +22,12 @@ class Restaurant extends Model
     public function foods(): HasMany
     {
         return $this->hasMany(Food::class);
+    }
+
+    protected function phoneNumber(): Attribute
+    {
+        return Attribute::make(
+            set: fn (string $value) => '0' . $value,
+        );
     }
 }
