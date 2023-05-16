@@ -31,7 +31,9 @@ Route::middleware('auth')->group(function () {
 
 //    dashboard
     Route::resource('/dashboard/admin', \App\Http\Controllers\AdminController::class);
-    Route::resource('/dashboard/seller', \App\Http\Controllers\SellerController::class);
+    Route::resource('/dashboard/seller', \App\Http\Controllers\SellerController::class)
+    ->middleware('exist.restaurant.info');
+//    Route::resource('/dashboard/customer', \App\Http\Controllers\CustomerController::class);
 
 //    restaurant type
     Route::get('/restaurantTypeEdit/{id}', [\App\Http\Controllers\RestaurantTypeController::class, 'edit'])
