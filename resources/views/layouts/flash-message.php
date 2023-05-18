@@ -1,4 +1,7 @@
 <?php
+
+use Illuminate\Support\Facades\Session;
+
 if (Session::has('success')) { ?>
     <div class="p-2 m-2 bg-lime-200 text-lime-600 border rounded">
         <h2 class="h2"><?= Session::get('success') ?></h2>
