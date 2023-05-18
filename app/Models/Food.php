@@ -18,6 +18,11 @@ class Food extends Model
         'discount_percent',
     ];
 
+    protected $hidden = [
+        'restaurant_id',
+        'category_id',
+    ];
+
     public function foodCategory(): BelongsTo
     {
         return $this->belongsTo(FoodCategory::class, 'category_id');

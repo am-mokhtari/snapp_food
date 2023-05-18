@@ -21,6 +21,11 @@ class Restaurant extends Model
         'account_number',
     ];
 
+    protected $hidden = [
+        'user_id',
+        'type_id',
+    ];
+
     public function foods(): HasMany
     {
         return $this->hasMany(Food::class);
