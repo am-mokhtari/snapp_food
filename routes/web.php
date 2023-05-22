@@ -86,7 +86,7 @@ Route::middleware('auth')->group(function () {
 });
 
 //   SELLER
-//     restaurant info
+//     restaurant basic info
 Route::get('/restaurant/info/{id}', [SellerController::class, 'edit'])
     ->name('restaurant.info.edit');
 Route::post('/restaurant/{id}/info', [SellerController::class, 'update']);
