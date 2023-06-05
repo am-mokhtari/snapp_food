@@ -43,16 +43,16 @@ class LoginRequest extends FormRequest
 
         $username = [];
         if (is_numeric($this->username)) {
-            $username = ['phone_number'=> $this->username, 'password' => $this->password];
-        } elseif(preg_match('/^[a-zA-Z].{3,20}@.{3,10}\.[a-zA-Z]{2,10}$/i', $this->username)){
-            $username = ['email'=> $this->username, 'password' => $this->password];
+            $username = ['phone_number' => $this->username, 'password' => $this->password];
+        } elseif (preg_match('/^[a-zA-Z].{3,20}@.{3,10}\.[a-zA-Z]{2,10}$/i', $this->username)) {
+            $username = ['email' => $this->username, 'password' => $this->password];
         }
 
-        if (!Auth::attempt($username, $this->boolean('remember'))){
-        RateLimiter::hit($this->throttleKey());
+        if (!Auth::attempt($username, $this->boolean('remember'))) {
+            RateLimiter::hit($this->throttleKey());
 
-        throw ValidationException::withMessages(['username' => trans('auth.failed'),]);
-    }
+            throw ValidationException::withMessages(['username' => trans('auth.failed'),]);
+        }
 
 
         RateLimiter::clear($this->throttleKey());
