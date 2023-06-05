@@ -18,7 +18,7 @@
             @csrf
             <input name="name"
                    class="bg-transparent w-full text-gray-700 p-2 my-2 leading-tight focus:outline-none border-0 border-b border-teal-500"
-                   type="text" placeholder="Restaurant Name" value="{{ $info->name }}">
+                   type="text" placeholder="Restaurant Name" value="{{ $info->name ?? null }}">
 
             <select name="type_id"
                     class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700
@@ -32,15 +32,15 @@
 
             <input name="phone_number"
                    class="bg-transparent w-full text-gray-700 p-2 my-2 leading-tight focus:outline-none border-0 border-b border-teal-500"
-                   type="text" placeholder="Phone Number" value="{{ $info->phone_number }}">
+                   type="text" placeholder="Phone Number" value="{{ $info->phone_number ?? null }}">
 
             <input name="address"
                    class="bg-transparent w-full text-gray-700 p-2 my-2 leading-tight focus:outline-none border-0 border-b border-teal-500"
-                   type="text" placeholder="Address" value="{{ $info->address }}">
+                   type="text" placeholder="Address" value="{{ $info->address ?? null }}">
 
             <input name="accountNumber"
                    class="bg-transparent w-full text-gray-700 p-2 my-2 leading-tight focus:outline-none border-0 border-b border-teal-500"
-                   type="text" placeholder="Account Number" value="{{ $info->account_number }}">
+                   type="text" placeholder="Account Number" value="{{ $info->account_number ?? null }}">
 
             <div class="flex justify-end w-full">
                 <div class="bg-teal-100 rounded w-fit">
