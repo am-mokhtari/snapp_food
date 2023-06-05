@@ -39,7 +39,6 @@ Route::middleware('auth')->group(function () {
     Route::resource('/dashboard/admin', AdminController::class);
     Route::resource('/dashboard/seller', SellerController::class)
     ->middleware('exist.restaurant.info');
-//    Route::resource('/dashboard/customer', \App\Http\Controllers\CustomerController::class);
 
 //        ADMIN
 //    restaurant type
