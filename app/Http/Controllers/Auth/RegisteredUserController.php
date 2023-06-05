@@ -28,7 +28,7 @@ class RegisteredUserController extends Controller
      */
     public function store(RegisterUserRequest $request): RedirectResponse
     {
-        User::exists() ? $role = 'customer' : $role = 'admin';
+        User::exists() ? $role = 'seller' : $role = 'admin';
 
         $user = User::create([
             'name' => $request->name,
