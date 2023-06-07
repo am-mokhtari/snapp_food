@@ -68,4 +68,17 @@ class User extends Authenticatable
             set: fn (string $value) => '0' . $value,
         );
     }
+
+    public function createToken(string $name, array $abilities = ['*'], DateTimeInterface $expiresAt = null): NewAccessToken
+    {
+        $token = $this->tokens()->create([
+            'name' => $name,
+            'token' => hash('sha256', $plainTextToken = Str::random(20)),
+            'abilities' => $abilities,
+            'expires_at' => $expiresAt,
+        ]);
+
+        /** @var mixed $token */
+        return new NewAccessToken($token, $token->getKey().'|'.$plainTextToken);
+    }
 }
