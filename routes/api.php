@@ -13,13 +13,18 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
-Route::middleware('auth:sanctum')->group(function (){
+Route::middleware('auth:sanctum')->group(function () {
     Route::get('/user', function (Request $request) {
         return $request->user();
     });
 
-//  addresses apis
+    //  addresses apis
     Route::get("/addresses", [\App\Http\Controllers\Api\AddressController::class, 'show']);
     Route::post("/addresses", [\App\Http\Controllers\Api\AddressController::class, 'store']);
     Route::post("/addresses/{address_id}", [\App\Http\Controllers\Api\AddressController::class, 'update']);
 });
+
+//  authenticate apis
+Route::post('/login', [\App\Http\Controllers\Api\UserController::class, 'login']);
+Route::post('/register', [\App\Http\Controllers\Api\UserController::class, 'register']);
+Route::post('/logout', [\App\Http\Controllers\Api\UserController::class, 'logout']);
