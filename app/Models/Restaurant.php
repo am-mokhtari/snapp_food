@@ -19,6 +19,8 @@ class Restaurant extends Model
         'type_id',
         'phone_number',
         'account_number',
+        'score',
+        'is_open'
     ];
 
     protected $hidden = [
