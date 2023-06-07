@@ -30,6 +30,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/restaurants', [\App\Http\Controllers\Api\RestaurantController::class, 'index']);
     Route::get('/restaurants/{restaurant_id}', [\App\Http\Controllers\Api\RestaurantController::class, 'show']);
 
+    //    Foods api
+    Route::get('/restaurants/{restaurant_id}/foods', [\App\Http\Controllers\Api\FoodController::class, 'show']);
+
 });
 
 //  authenticate apis
