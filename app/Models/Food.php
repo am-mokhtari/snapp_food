@@ -13,6 +13,7 @@ class Food extends Model
     protected $fillable = [
         'name',
         'ingredient',
+        'price',
         'restaurant_id',
         'category_id',
         'discount_percent',
@@ -22,6 +23,8 @@ class Food extends Model
         'restaurant_id',
         'category_id',
     ];
+
+    protected $table = "foods";
 
     public function foodCategory(): BelongsTo
     {

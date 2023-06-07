@@ -14,6 +14,7 @@ return new class extends Migration {
             $table->id();
             $table->string('name');
             $table->text('ingredient')->nullable();
+            $table->integer('price');
             $table->string('picture')->nullable();
             $table->foreignId('restaurant_id')->constrained(
                 table: 'restaurants', indexName: 'food_restaurant_id'
