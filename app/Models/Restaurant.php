@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Restaurant extends Model
 {
@@ -17,7 +18,6 @@ class Restaurant extends Model
         'user_id',
         'type_id',
         'phone_number',
-        'address',
         'account_number',
     ];
 
@@ -29,6 +29,11 @@ class Restaurant extends Model
     public function foods(): HasMany
     {
         return $this->hasMany(Food::class);
+    }
+
+    public function address(): HasOne
+    {
+        return $this->hasOne(Address::class);
     }
 
     public function type(): belongsTo

@@ -14,14 +14,17 @@ return new class extends Migration
         Schema::create('restaurants', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->foreignId('user_id')->constrained(
-                table: 'users', indexName: 'restaurants_user_id'
-            )->cascadeOnDelete();
-            $table->foreignId('type_id')->nullable()->constrained(
-                table: 'restaurant_types', indexName: 'restaurants_type_id'
-            )->nullOnDelete();
+
+            $table->foreignId('user_id')
+                ->constrained('users')
+                ->cascadeOnDelete();
+
+            $table->foreignId('type_id')
+                ->nullable()
+                ->constrained('restaurant_types')
+                ->nullOnDelete();
+
             $table->string('phone_number');
-            $table->text('address');
             $table->string('account_number');
             $table->timestamps();
         });
