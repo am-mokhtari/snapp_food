@@ -22,6 +22,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get("/addresses", [\App\Http\Controllers\Api\AddressController::class, 'show']);
     Route::post("/addresses", [\App\Http\Controllers\Api\AddressController::class, 'store']);
     Route::post("/addresses/{address_id}", [\App\Http\Controllers\Api\AddressController::class, 'update']);
+
+    //    user api
+    Route::patch("/user", [\App\Http\Controllers\Api\UserController::class, 'updateInfo']);
+
 });
 
 //  authenticate apis

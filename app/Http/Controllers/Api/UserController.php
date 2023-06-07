@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Api\ApiRegisterRequest;
 use App\Models\User;
 use App\Rules\PhoneNumber;
 use Illuminate\Http\Request;
@@ -14,6 +13,27 @@ use Laravel\Sanctum\Sanctum;
 
 class UserController extends Controller
 {
+    public function updateInfo(Request $request)
+    {
+        if (isset($request->phone_number)) {
+            $request->phone_number = strrev((str_split(strrev($request->phone_number), 10))[0]);
+        }
+
+        $request->validate([
+            'name' => ['string', 'max:255', 'min:3'],
+            'email' => ['string', 'email', 'max:255', 'unique:' . User::class],
+            'phone_number' => ['numeric', 'unique:' . User::class, new PhoneNumber],
+        ]);
+
+        $user = Auth::user();
+        $user->name = $request->name ?? $user->name;
+        $user->email = $request->email ?? $user->email;
+        $user->phone_number = $request->phone_number ?? $user->phone_number;
+        $user->password = $request->password ?? $user->password;
+        $user->save();
+        return response()->json(['msg' => 'your info is updated successfully.']);
+    }
+
     /**
      * Store a newly created resource in storage.
      */
