@@ -27,4 +27,12 @@ class Handler extends ExceptionHandler
             //
         });
     }
+
+    protected function unauthenticated($request, \Illuminate\Auth\AuthenticationException $exception)
+    {
+        if ($request->is('api/*')){
+            return response()->json(['message' => $exception->getMessage()]);
+        }
+        return redirect()->route('login');
+    }
 }
