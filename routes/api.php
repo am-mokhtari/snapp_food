@@ -26,6 +26,10 @@ Route::middleware('auth:sanctum')->group(function () {
     //    user api
     Route::patch("/user", [\App\Http\Controllers\Api\UserController::class, 'updateInfo']);
 
+    //    restaurant apis
+    Route::get('/restaurants', [\App\Http\Controllers\Api\RestaurantController::class, 'index']);
+    Route::get('/restaurants/{restaurant_id}', [\App\Http\Controllers\Api\RestaurantController::class, 'show']);
+
 });
 
 //  authenticate apis
