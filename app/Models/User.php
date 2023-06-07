@@ -3,12 +3,15 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use DateTimeInterface;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Str;
 use Laravel\Sanctum\HasApiTokens;
+use Laravel\Sanctum\NewAccessToken;
 
 class User extends Authenticatable
 {
@@ -24,7 +27,8 @@ class User extends Authenticatable
         'email',
         'phone_number',
         'password',
-        'role'
+        'role',
+        'current_address_id',
     ];
 
     /**
@@ -36,6 +40,7 @@ class User extends Authenticatable
         'password',
         'role',
         'remember_token',
+        'current_address_id',
     ];
 
     /**
@@ -50,6 +55,11 @@ class User extends Authenticatable
     public function restaurants(): HasMany
     {
         return $this->hasMany(Restaurant::class);
+    }
+
+    public function addresses(): HasMany
+    {
+        return $this->hasMany(Address::class);
     }
 
     protected function phoneNumber(): Attribute
