@@ -18,7 +18,7 @@
             @csrf
             <input name="name"
                    class="bg-transparent w-full text-gray-700 p-2 my-2 leading-tight focus:outline-none border-0 border-b border-teal-500"
-                   type="text" placeholder="Restaurant Name" value="{{ $info->name ?? null }}">
+                   type="text" placeholder="Restaurant Name" value="{{ $info->name ?? old('name') }}">
 
             <select name="type_id"
                     class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700
@@ -32,15 +32,23 @@
 
             <input name="phone_number"
                    class="bg-transparent w-full text-gray-700 p-2 my-2 leading-tight focus:outline-none border-0 border-b border-teal-500"
-                   type="text" placeholder="Phone Number" value="{{ $info->phone_number ?? null }}">
+                   type="text" placeholder="Phone Number" value="{{ $info->phone_number ?? old('phone_number') }}">
 
             <input name="address"
                    class="bg-transparent w-full text-gray-700 p-2 my-2 leading-tight focus:outline-none border-0 border-b border-teal-500"
-                   type="text" placeholder="Address" value="{{ $info->address ?? null }}">
+                   type="text" placeholder="Address" value="{{ $info->address ?? old('address') }}">
+
+            <input name="latitude"
+                   class="bg-transparent w-full text-gray-700 p-2 my-2 leading-tight focus:outline-none border-0 border-b border-teal-500"
+                   type="number" step="0.000001" placeholder="Latitude" value="{{ $info->address ?? old('latitude') }}">
+
+            <input name="longitude"
+                   class="bg-transparent w-full text-gray-700 p-2 my-2 leading-tight focus:outline-none border-0 border-b border-teal-500"
+                   type="number" step="0.000001" placeholder="Longitude" value="{{ $info->address ?? old('longitude') }}">
 
             <input name="accountNumber"
                    class="bg-transparent w-full text-gray-700 p-2 my-2 leading-tight focus:outline-none border-0 border-b border-teal-500"
-                   type="text" placeholder="Account Number" value="{{ $info->account_number ?? null }}">
+                   type="text" placeholder="Account Number" value="{{ $info->account_number ?? old('accountNumber') }}">
 
             <div class="flex justify-end w-full">
                 <div class="bg-teal-100 rounded w-fit">
