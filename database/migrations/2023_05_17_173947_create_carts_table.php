@@ -15,9 +15,6 @@ return new class extends Migration {
             $table->foreignId('user_id')
                 ->constrained('users')
                 ->noActionOnDelete();
-            $table->foreignId('restaurant_id')
-                ->constrained('restaurants')
-                ->noActionOnDelete();
             $table->foreignId('discount_id')
                 ->nullable()
                 ->constrained('discount_codes')

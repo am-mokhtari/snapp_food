@@ -16,7 +16,6 @@ class Cart extends Model
         'user_id',
         'discount_id',
         'is_closed',
-        'restaurant_id'
     ];
 
     protected $hidden = [
