@@ -35,6 +35,9 @@ Route::middleware('auth:sanctum')->group(function () {
 
 });
 
+//    Foods api
+Route::get('/restaurants/{restaurant_id}/foods', [\App\Http\Controllers\Api\FoodController::class, 'show']);
+
 //  authenticate apis
 Route::post('/login', [\App\Http\Controllers\Api\UserController::class, 'login']);
 Route::post('/register', [\App\Http\Controllers\Api\UserController::class, 'register']);
