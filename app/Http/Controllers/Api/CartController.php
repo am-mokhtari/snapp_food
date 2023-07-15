@@ -6,7 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\CartsResource;
 use App\Models\Cart;
 use App\Models\CartItem;
+use App\Models\Food;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CartController extends Controller
 {
@@ -15,10 +17,17 @@ class CartController extends Controller
      */
     public function index()
     {
-        return CartsResource::collection(Cart::with('items')
-            ->where('is_closed', '=', false)
-            ->whereNotNull('restaurant_id')
-            ->get());
+        $carts = Cart::where('user_id', '=', Auth::id())->where('is_closed', '=', false)->get();
+        $list = [];
+        foreach ($carts as $cart) {
+            $list[$cart->id][] = $cart;
+            foreach ($cart->foods as $food) {
+                $restaurantsFoods[$food->restaurant->id]["restaurant"] = $food->restaurant;
+                $restaurantsFoods[$food->restaurant->id]["foods"][] = $food;
+            }
+            $list[$cart->id][] = $restaurantsFoods;
+        }
+        return response()->json(["Carts" => CartsResource::collection($list)]);
     }
 
     /**
