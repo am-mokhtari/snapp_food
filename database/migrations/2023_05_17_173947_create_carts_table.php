@@ -19,7 +19,7 @@ return new class extends Migration {
                 ->nullable()
                 ->constrained('discount_codes')
                 ->nullOnDelete();
-            $table->boolean('is_closed');
+            $table->boolean('is_closed')->default(false);
             $table->timestamps();
         });
     }
