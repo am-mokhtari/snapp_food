@@ -17,14 +17,10 @@ class CartsResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            "id" => $this->id,
-            "restaurant" => Restaurant::find($this->restaurant_id)->only(['name']),
-            "discount_id" => $this->discount_id,
-            "details" => $this->items->each(function ($value, $key) {
-                $value->food = FoodResource::make(Food::find($value->food_id));
-            }),
-            "created_at" => $this->created_at,
-            "updated_at" => $this->updated_at,
+            "id" => $this[0]['id'],
+            "items" => CartItemsResource::collection($this[1]),
+            "created_at" => $this[0]->created_at,
+            "updated_at" => $this[0]->updated_at,
         ];
     }
 }
