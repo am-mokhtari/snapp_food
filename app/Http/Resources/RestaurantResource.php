@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Models\Address;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -19,7 +20,7 @@ class RestaurantResource extends JsonResource
             "name" => $this->name,
             "type" => $this->type->title,
             "phone_number" => $this->phone_number,
-            "address" => $this->address->only([
+            "address" => Address::find($this->address_id)->only([
                 'address',
                 'latitude',
                 'longitude',
