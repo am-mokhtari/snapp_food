@@ -17,15 +17,13 @@ class CartController extends Controller
      */
     public function index()
     {
-        $carts = Cart::where('user_id', '=', Auth::id())->where('is_closed', '=', false)->get();
+        $carts = Auth::user()->carts->where('is_closed', '=', false);
         $list = [];
         foreach ($carts as $cart) {
-            $list[$cart->id][] = $cart;
+            $list[] = $cart;
             foreach ($cart->foods as $food) {
-                $restaurantsFoods[$food->restaurant->id]["restaurant"] = $food->restaurant;
-                $restaurantsFoods[$food->restaurant->id]["foods"][] = $food;
+                $food->restaurant;
             }
-            $list[$cart->id][] = $restaurantsFoods;
         }
         return response()->json(["Carts" => CartsResource::collection($list)]);
     }
