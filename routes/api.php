@@ -31,13 +31,21 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/restaurants/{restaurant_id}', [\App\Http\Controllers\Api\RestaurantController::class, 'show']);
 
     //    Carts apis
-    Route::get('/carts', [\App\Http\Controllers\Api\CartController::class, 'index']);
+    Route::prefix('/carts')
+        ->controller(\App\Http\Controllers\Api\CartController::class)
+        ->group(function () {
+            Route::get('/', 'index');
+            Route::post('/add', 'store');
+            Route::patch('/add', 'update');
+            Route::get('/{cart}', 'show')->whereNumber("cart");
+            Route::post('/{cart_id}/pay', 'pay')->whereNumber("cart_id");
+        });
 });
 
 //    Foods api
-Route::get('/restaurants/{restaurant_id}/foods', [\App\Http\Controllers\Api\FoodController::class, 'show']);
+    Route::get('/restaurants/{restaurant_id}/foods', [\App\Http\Controllers\Api\FoodController::class, 'show']);
 
 //  authenticate apis
-Route::post('/login', [\App\Http\Controllers\Api\UserController::class, 'login']);
-Route::post('/register', [\App\Http\Controllers\Api\UserController::class, 'register']);
-Route::post('/logout', [\App\Http\Controllers\Api\UserController::class, 'logout']);
+    Route::post('/login', [\App\Http\Controllers\Api\UserController::class, 'login']);
+    Route::post('/register', [\App\Http\Controllers\Api\UserController::class, 'register']);
+    Route::post('/logout', [\App\Http\Controllers\Api\UserController::class, 'logout']);
