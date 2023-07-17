@@ -91,9 +91,17 @@ class CartController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request)
     {
-        //
+        $cart = Auth::user()->lastCart()->first();
+        $cartItem = $cart->items()->get()->where('food_id', '=', $request['food_id'])->first();
+        $cartItem->number = $request['count'];
+        $cartItem->save();
+
+        return response()->json([
+            "msg" => "food numbers updated.",
+            "Cart_id" => $cart->id
+        ]);
     }
 
     /**
