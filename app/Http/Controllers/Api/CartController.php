@@ -41,7 +41,30 @@ class CartController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $cart = Auth::user()->lastCart()->firstOrCreate(
+            [],
+            ['user_id' => 3, 'is_closed' => false]
+        );
+
+        $cartItem = $cart->items->where('food_id', '=', $request['food_id'])->first();
+        if (!is_null($cartItem)) {
+            $data = ['food_id' => $request['food_id'], 'count' => $request['count']];
+            $request = Request::create('', '', $data);
+            return $this->update($request);
+        }
+
+        $cartItem = CartItem::create(
+            [
+                "cart_id" => $cart->id,
+                "food_id" => $request['food_id'],
+                "number" => $request['count'],
+            ]
+        );
+
+        return response()->json([
+            "msg" => "food added to cart successfully",
+            "Cart_id" => $cart->id
+        ]);
     }
 
     /**
