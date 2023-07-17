@@ -70,9 +70,14 @@ class CartController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Cart $cart)
     {
-        //
+        $list['cart'] = $cart;
+        foreach ($cart->foods as $food) {
+            $food->restaurant;
+        }
+
+        return response()->json(["Carts" => CartsResource::make($list['cart'])]);
     }
 
     /**
