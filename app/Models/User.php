@@ -4,9 +4,11 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use DateTimeInterface;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
@@ -62,6 +64,16 @@ class User extends Authenticatable
         return $this->hasMany(Cart::class);
     }
 
+    public function lastCart(): HasOne
+    {
+        return $this->hasOne(
+            Cart::class)->ofMany(
+            ['id' => 'max'],
+            function (Builder $query) {
+                $query->where('is_closed', '=', false);
+            });
+    }
+
     public function addresses(): HasMany
     {
         return $this->hasMany(Address::class);
@@ -70,7 +82,7 @@ class User extends Authenticatable
     protected function phoneNumber(): Attribute
     {
         return Attribute::make(
-            set: fn (string $value) => '0' . $value,
+            set: fn(string $value) => '0' . $value,
         );
     }
 
@@ -84,6 +96,6 @@ class User extends Authenticatable
         ]);
 
         /** @var mixed $token */
-        return new NewAccessToken($token, $token->getKey().'|'.$plainTextToken);
+        return new NewAccessToken($token, $token->getKey() . '|' . $plainTextToken);
     }
 }
