@@ -21,7 +21,6 @@ class Cart extends Model
     protected $hidden = [
         'user_id',
         'is_closed',
-        'restaurant_id'
     ];
 
     public function foods(): BelongsToMany
