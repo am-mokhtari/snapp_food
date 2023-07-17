@@ -20,6 +20,7 @@ return new class extends Migration
                 ->cascadeOnUpdate()
                 ->cascadeOnDelete();
             $table->integer('number')->default('1');
+            $table->timestamps();
         });
     }
 
