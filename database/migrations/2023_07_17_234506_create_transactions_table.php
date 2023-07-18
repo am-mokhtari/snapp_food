@@ -18,10 +18,6 @@ return new class extends Migration
             $table->foreignId('order_id')
                 ->constrained('orders')
                 ->noActionOnDelete();
-            $table->foreignId('card_id')
-                ->nullable()
-                ->constrained('card_numbers', 'id')
-                ->nullOnDelete();
             $table->double('payment_amount');
             $table->integer('completion_status')->nullable();
             $table->string('transaction_id')->nullable();
