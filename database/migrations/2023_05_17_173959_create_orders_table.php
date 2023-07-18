@@ -19,8 +19,10 @@ return new class extends Migration {
                 ->constrained('carts')
                 ->noActionOnDelete();
             $table->integer('amount');
-            $table->enum('status', ['pending', 'preparing', 'sending', 'delivered', 'canceled'])
+            $table->enum('order_status', ['pending', 'preparing', 'sending', 'delivered', 'canceled'])
                 ->default('pending');
+            $table->enum('payment_status', ['unpaid', 'paid'])
+                ->default('unpaid');
             $table->string('tracking_code');
             $table->integer('score')->nullable();
             $table->timestamps();
