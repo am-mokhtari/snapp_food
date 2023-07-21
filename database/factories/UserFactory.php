@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
 /**
@@ -21,7 +22,9 @@ class UserFactory extends Factory
             'name' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
-            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+            'phone_number' => fake()->unique()->e164PhoneNumber(),
+            'role' => Arr::random(['seller', 'customer']),
+            'password' => '$2y$10$58top3IeiW3O8tE33k1DhOg6MVqyZohCpe73KllXG4q4LHbi0O4Qe', // password
             'remember_token' => Str::random(10),
         ];
     }
