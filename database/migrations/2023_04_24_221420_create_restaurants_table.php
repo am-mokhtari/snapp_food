@@ -24,7 +24,7 @@ return new class extends Migration
                 ->constrained('restaurant_types')
                 ->nullOnDelete();
 
-            $table->string('phone_number');
+            $table->string('phone_number')->unique();
             $table->string('account_number');
             $table->timestamps();
         });
