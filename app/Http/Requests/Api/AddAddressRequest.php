@@ -26,7 +26,7 @@ class AddAddressRequest extends FormRequest
         return [
             'title' => 'alpha_num|max:50|min:3|required',
             'address' => 'string|min:10|max:500|required',
-            'latitude' => 'numeric|between:-180,180|required',
+            'latitude' => 'numeric|between:-90,90|required',
             'longitude' => 'numeric|between:-180,180|required',
         ];
     }

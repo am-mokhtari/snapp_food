@@ -38,7 +38,7 @@ class SellerController extends Controller
             'type_id' => ['numeric', 'exists:'.RestaurantType::class.',id'],
             'phone_number' => ['required', 'numeric', new PhoneNumber],
             'address' => 'string|min:10|max:500|required',
-            'latitude' => 'numeric|between:-180,180|required',
+            'latitude' => 'numeric|between:-90,90|required',
             'longitude' => 'numeric|between:-180,180|required',
             'accountNumber' => ['regex:/(\d){10,20}$/i']
         ]);
@@ -92,7 +92,7 @@ class SellerController extends Controller
             'type_id' => ['numeric', 'exists:'.RestaurantType::class.',id'],
             'phone_number' => ['required', 'numeric', new PhoneNumber],
             'address' => 'string|min:10|max:500|required',
-            'latitude' => 'numeric|between:-180,180|required',
+            'latitude' => 'numeric|between:-90,90|required',
             'longitude' => 'numeric|between:-180,180|required',
             'accountNumber' => ['regex:/(\d){10,20}$/i']
         ]);
