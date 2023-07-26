@@ -12,9 +12,11 @@ class comment extends Model
     protected $fillable = [
         'content',
         'order_id',
+        'user_id',
     ];
 
     protected $hidden = [
         'order_id',
+        'user_id',
     ];
 }
