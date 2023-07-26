@@ -16,6 +16,7 @@ class Food extends Model
         'name',
         'ingredient',
         'price',
+        'picture',
         'restaurant_id',
         'category_id',
         'discount_percent',
