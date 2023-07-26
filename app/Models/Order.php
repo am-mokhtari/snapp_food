@@ -10,13 +10,16 @@ class Order extends Model
     use HasFactory;
     protected $fillable = [
         'cart_id',
+        'user_id',
         'amount',
-        'status',
+        'order_status',
+        'payment_status',
         'tracking_code',
         'score',
     ];
 
     protected $hidden = [
-        'cart_id'
+        'cart_id',
+        'user_id',
     ];
 }
