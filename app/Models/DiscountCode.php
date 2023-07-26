@@ -12,6 +12,7 @@ class DiscountCode extends Model
     protected $fillable = [
         'code',
         'percents',
-        'expiration',
+        'expiration_date',
+        'expiration_time',
     ];
 }
