@@ -20,6 +20,7 @@ class Cart extends Model
 
     protected $hidden = [
         'user_id',
+        'discount_id',
         'is_closed',
     ];
 
