@@ -27,6 +27,7 @@ class Restaurant extends Model
     protected $hidden = [
         'user_id',
         'type_id',
+        'address_id',
     ];
 
     public function foods(): HasMany
