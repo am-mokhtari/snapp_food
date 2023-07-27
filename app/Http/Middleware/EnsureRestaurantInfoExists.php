@@ -18,7 +18,7 @@ class EnsureRestaurantInfoExists
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $id = Auth::user()->id;
+        $id = Auth::id();
         $restaurants = Restaurant::where('user_id', $id)->get();
         $unavailableInfo = true;
 

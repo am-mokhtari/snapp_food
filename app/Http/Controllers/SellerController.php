@@ -52,7 +52,7 @@ class SellerController extends Controller
 
         $info = new Restaurant;
         $info->name = $request->name;
-        $info->user_id = Auth::user()->id;
+        $info->user_id = Auth::id();
         $info->type_id = $request->type_id;
         $info->phone_number = $request->phone_number;
         $info->address_id = $address->id;
@@ -100,7 +100,7 @@ class SellerController extends Controller
         $info = Restaurant::find($id);
         if (!is_null($info)){
             $info->name = $request->name;
-            $info->user_id = Auth::user()->id;
+            $info->user_id = Auth::id();
             $info->type_id = $request->type_id;
             $info->phone_number = $request->phone_number;
             $info->address = $request->address;
