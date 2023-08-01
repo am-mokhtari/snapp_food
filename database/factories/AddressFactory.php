@@ -20,7 +20,7 @@ class AddressFactory extends Factory
     public function definition(): array
     {
         return array_merge([
-            'title' => fake()->title(),
+            'title' => fake()->word(),
             'address' => fake()->address(),
             'latitude' => fake()->latitude(),
             'longitude' => fake()->longitude(),

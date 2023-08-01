@@ -21,7 +21,6 @@ class UserFactory extends Factory
         return [
             'name' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),
-            'email_verified_at' => now(),
             'phone_number' => fake()->unique()->e164PhoneNumber(),
             'role' => Arr::random(['seller', 'customer']),
             'password' => '$2y$10$APKTE7COXDuk.RjlbPRd5uWaWPLA4ScjbX2fLdTj/STk7vaAJJlCW', // password: 123456789
