@@ -17,7 +17,7 @@ class TransactionFactory extends Factory
     {
         return [
             'token' => hash('sha256', $plainTextToken = fake()->unique()->regexify('[A-Za-z]{20}')),
-            'ref_num' => fake()->unique()->bothify('###-????'),
+            'ref_num' => fake()->unique()->bothify('?##??#?#'),
             'order_id' => Order::factory(),
             'payment_amount' => fake()->numberBetween(300000, 6000000),
             'completion_status' => Arr::random(['1', '-1', '-2', '-3', '-4', '-5', '-6', '-7', '-8', '-9', '-98', '-99']),
