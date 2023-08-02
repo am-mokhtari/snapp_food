@@ -22,7 +22,7 @@ class TransactionFactory extends Factory
             'payment_amount' => fake()->numberBetween(300000, 6000000),
             'completion_status' => Arr::random(['1', '-1', '-2', '-3', '-4', '-5', '-6', '-7', '-8', '-9', '-98', '-99']),
             'transaction_id' => fake()->randomNumber('5', true),
-            'tracking_code' => fake()->randomNumber(10, true),
+            'tracking_code' => fake()->randomNumber(9, true),
             'paid_card' => fake()->creditCardNumber(),
         ];
     }

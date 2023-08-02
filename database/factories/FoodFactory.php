@@ -20,7 +20,7 @@ class FoodFactory extends Factory
     {
         return [
             'name' => fake()->unique()->word(),
-            'ingredient' => fake()->words(),
+            'ingredient' => fake()->words('', true),
             'price' => fake()->numberBetween(300000, 3000000),
             'picture' => fake()->imageUrl(640, 480, 'foods', true, (fake()->word)),
             'restaurant_id' => Restaurant::factory(),
