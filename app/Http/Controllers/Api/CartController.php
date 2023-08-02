@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\CartsResource;
 use App\Models\Cart;
 use App\Models\CartItem;
-use App\Models\Food;
+use App\Models\Order;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -110,5 +110,25 @@ class CartController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function pay(Cart $cart)
+    {
+        $amount = 0;
+        foreach ($cart->items as $item) {
+            $amount += $item->number * \App\Models\Food::find($item->food_id)->price;
+        }
+        $amount -= round(($amount * $cart->discountCode()->first()->percents) / 100, -2);
+
+
+        $order = Order::create([
+            'user_id' => Auth::id(),
+            'cart_id' => $cart->id,
+            'amount' => $amount,
+            'payment_status' => 1,
+            'tracking_code' => '123456789',
+        ]);
+        $cart->is_closed = true;
+        $cart->save();
     }
 }
