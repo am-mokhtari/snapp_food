@@ -35,7 +35,7 @@ Route::middleware('auth:sanctum')->group(function () {
             Route::post('/add', 'store');
             Route::patch('/add', 'update');
             Route::get('/{cart}', 'show')->whereNumber("cart");
-            Route::post('/{cart_id}/pay', 'pay')->whereNumber("cart_id");
+            Route::post('/{cart}/pay', 'pay')->whereNumber("cart_id");
         });
 });
 
