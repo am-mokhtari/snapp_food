@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\AddressController;
 use App\Http\Controllers\Api\CartController;
+use App\Http\Controllers\Api\CommentController;
 use App\Http\Controllers\Api\FoodController;
 use App\Http\Controllers\Api\RestaurantController;
 use App\Http\Controllers\Api\UserController;
@@ -37,6 +38,10 @@ Route::middleware('auth:sanctum')->group(function () {
             Route::get('/{cart}', 'show')->whereNumber("cart");
             Route::post('/{cart}/pay', 'pay')->whereNumber("cart_id");
         });
+
+    //     Comments
+
+    Route::get('/comments', [CommentController::class, 'index']);
 });
 
 //    Foods api
