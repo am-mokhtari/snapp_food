@@ -8,9 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Order extends Model
 {
     use HasFactory;
+
     protected $fillable = [
-        'cart_id',
         'user_id',
+        'restaurant_id',
+        'cart_id',
         'amount',
         'order_status',
         'payment_status',
@@ -19,7 +21,8 @@ class Order extends Model
     ];
 
     protected $hidden = [
-        'cart_id',
         'user_id',
+        'restaurant_id',
+        'cart_id',
     ];
 }

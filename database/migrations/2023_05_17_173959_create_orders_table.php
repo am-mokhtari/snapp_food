@@ -15,6 +15,9 @@ return new class extends Migration {
             $table->foreignId('user_id')
                 ->constrained('users')
                 ->noActionOnDelete();
+            $table->foreignId('restaurant_id')
+                ->constrained('restaurants')
+                ->noActionOnDelete();
             $table->foreignId('cart_id')
                 ->constrained('carts')
                 ->noActionOnDelete();
