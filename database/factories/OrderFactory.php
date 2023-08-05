@@ -27,7 +27,7 @@ class OrderFactory extends Factory
             'amount' => fake()->numberBetween(300000, 6000000),
             'order_status' => Arr::random(['pending', 'preparing', 'sending', 'delivered', 'canceled']),
             'payment_status' => Arr::random(['unpaid', 'paid']),
-            'tracking_code' => fake()->randomNumber(9, true), // return a number with 10Digits
+            'tracking_code' => fake()->unique()->numerify('O-##########'), // return a number with 10Digits
             'score' => fake()->numberBetween(0, 5),
         ];
     }
