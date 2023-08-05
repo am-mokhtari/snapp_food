@@ -125,10 +125,22 @@ class CartController extends Controller
             'user_id' => Auth::id(),
             'cart_id' => $cart->id,
             'amount' => $amount,
-            'payment_status' => 1,
-            'tracking_code' => '123456789',
+            'order_status' => 'delivered',
+            'payment_status' => 'paid',
+            'tracking_code' => '',
         ]);
         $cart->is_closed = true;
         $cart->save();
+
+        return response()->json([
+            "msg" => "Your cart with id:" . $cart->id . " is paid.",
+            "order info" => [
+                "id:" => $order->id,
+                "amount" => $order->amount,
+                "status" => $order->order_status,
+                "payment" => $order->payment_status,
+                "tracking code" => $order->tracking_code,
+            ]
+        ]);
     }
 }
