@@ -10,7 +10,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 
-
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/user', function (Request $request) {
         return $request->user();
@@ -40,14 +39,17 @@ Route::middleware('auth:sanctum')->group(function () {
         });
 
     //     Comments
-
-    Route::get('/comments', [CommentController::class, 'index']);
+    Route::controller(CommentController::class)
+        ->group(function () {
+            Route::get('/comments', 'index');
+            Route::post('/comments', 'store');
+        });
 });
 
 //    Foods api
-    Route::get('/restaurants/{restaurant_id}/foods', [FoodController::class, 'show']);
+Route::get('/restaurants/{restaurant_id}/foods', [FoodController::class, 'show']);
 
 //  authenticate apis
-    Route::post('/login', [UserController::class, 'login']);
-    Route::post('/register', [UserController::class, 'register']);
-    Route::post('/logout', [UserController::class, 'logout']);
+Route::post('/login', [UserController::class, 'login']);
+Route::post('/register', [UserController::class, 'register']);
+Route::post('/logout', [UserController::class, 'logout']);
