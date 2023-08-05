@@ -14,12 +14,5 @@ class Address extends Model
         'address',
         'latitude',
         'longitude',
-        'user_id',
-        'restaurant_id',
-    ];
-
-    protected $hidden = [
-        'user_id',
-        'restaurant_id',
     ];
 }

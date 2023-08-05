@@ -17,14 +17,6 @@ return new class extends Migration
             $table->text("address");
             $table->float("latitude", 9, 6);
             $table->float("longitude", 9, 6);
-            $table->foreignId("user_id")
-                ->nullable()
-                ->constrained('users')
-                ->cascadeOnDelete();
-            $table->foreignId("restaurant_id")
-                ->nullable()
-                ->constrained('restaurants')
-                ->cascadeOnDelete();
             $table->timestamps();
         });
     }

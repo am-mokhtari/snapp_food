@@ -24,8 +24,6 @@ class AddressFactory extends Factory
             'address' => fake()->address(),
             'latitude' => fake()->latitude(),
             'longitude' => fake()->longitude(),
-        ],
-            Arr::random([['user_id' => User::factory()], ['restaurant_id' => Restaurant::factory()]])
-        );
+        ]);
     }
 }
