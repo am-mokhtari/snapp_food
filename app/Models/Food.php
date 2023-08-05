@@ -43,8 +43,39 @@ class Food extends Model
     {
         return $this->belongsToMany(Cart::class, 'cart_items');
     }
+
     public function items(): HasMany
     {
         return $this->hasMany(CartItem::class);
+    }
+
+    public function comments()
+    {
+        $carts = $this->carts;
+        if (is_null($carts)) {
+            return null;
+        }
+
+        $orders = [];
+        foreach ($carts as $cart) {
+            $order = $cart->order;
+            if (!is_null($order)) {
+                $orders[] = $order;
+            }
+        }
+        if (count($orders) === 0) {
+            return null;
+        }
+
+        $ids = [];
+        foreach ($orders as $order) {
+            $ids[] = $order->id;
+        }
+        $comments = Comment::whereIn('order_id', $ids)->get();
+
+        if (count($comments) === 0) {
+            return null;
+        }
+        return $comments;
     }
 }
