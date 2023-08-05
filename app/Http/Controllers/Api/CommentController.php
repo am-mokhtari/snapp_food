@@ -9,6 +9,8 @@ use App\Models\Food;
 use App\Models\Order;
 use App\Models\Restaurant;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class CommentController extends Controller
 {
@@ -46,51 +48,30 @@ class CommentController extends Controller
             ->json(['msg' => "for see comments you must enter the food_id or restaurant_id !"]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
+        $request->validate([
+            'order_id' => ['required', 'numeric', 'exists:' . Order::class . ',id'],
+            'score' => ['required', 'numeric', 'min:0', 'max:5'],
+            'message' => ['required', 'min:3', 'max:2000', 'unique:'.Comment::class.',content'],
+        ]);
 
-    }
+        $order = Order::find($request['order_id']);
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
+        if ($order->user_id != Auth::id()) {
+            return response()->json(['msg' => 'This order is not yours.']);
+        }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
+        $order->score = $request['score'];
+        $order->save();
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
+        $comment = Comment::create([
+            'order_id' => $request['order_id'],
+            'user_id' => Auth::id(),
+            'content' => Str::of($request['message'])->trim(),
+        ]);
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        return response()->json(['msg' => "comment created successfully"]);
     }
 }
