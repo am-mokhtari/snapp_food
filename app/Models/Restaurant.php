@@ -49,6 +49,25 @@ class Restaurant extends Model
         return $this->belongsTo(RestaurantType::class);
     }
 
+    public function comments()
+    {
+        $orders = $this->orders;
+        if (is_null($orders)) {
+            return null;
+        }
+
+        $ids = [];
+        foreach ($orders as $order) {
+            $ids[] = $order->id;
+        }
+
+        $comments = Comment::whereIn('order_id', $ids)->get();
+        if (empty($comments->all())) {
+            return null;
+        }
+        return $comments;
+    }
+
     protected function phoneNumber(): Attribute
     {
         return Attribute::make(
