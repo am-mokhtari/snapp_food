@@ -45,4 +45,12 @@ class Cart extends Model
         return $this->hasOne(Order::class);
     }
 
+    public function restaurants()
+    {
+        $restaurants = [];
+        foreach ($this->foods()->get() as $food) {
+            $restaurants[] = $food->restaurant;
+        }
+        return $restaurants;
+    }
 }
