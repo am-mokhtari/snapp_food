@@ -41,7 +41,7 @@ class Food extends Model
 
     public function carts(): BelongsToMany
     {
-        return $this->belongsToMany(CartItem::class, 'cart_items');
+        return $this->belongsToMany(Cart::class, 'cart_items');
     }
     public function items(): HasMany
     {
