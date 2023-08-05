@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Cart;
+use App\Models\Restaurant;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Arr;
@@ -20,8 +21,9 @@ class OrderFactory extends Factory
     public function definition(): array
     {
         return [
-            'cart_id' => Cart::factory(),
             'user_id' => User::factory(),
+            'restaurant_id' => Restaurant::factory(),
+            'cart_id' => Cart::factory(),
             'amount' => fake()->numberBetween(300000, 6000000),
             'order_status' => Arr::random(['pending', 'preparing', 'sending', 'delivered', 'canceled']),
             'payment_status' => Arr::random(['unpaid', 'paid']),
