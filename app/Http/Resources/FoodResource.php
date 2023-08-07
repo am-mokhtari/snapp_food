@@ -18,8 +18,8 @@ class FoodResource extends JsonResource
             "id" => $this->id,
             "name" => $this->name,
             "price" => $this->price,
-            "ingredient" => $this->ingredient,
-            "picture" => $this->picture,
+            "ingredient" => empty($this->ingredient) ? "none" :  $this->ingredient,
+            "picture" => empty($this->picture) ? "none" :  $this->picture,
         ];
     }
 }
