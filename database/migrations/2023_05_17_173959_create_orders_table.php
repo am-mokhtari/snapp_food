@@ -27,7 +27,7 @@ return new class extends Migration {
             $table->enum('payment_status', ['unpaid', 'paid'])
                 ->default('unpaid');
             $table->string('tracking_code');
-            $table->integer('score')->nullable();
+            $table->tinyInteger('score')->default(0);
             $table->timestamps();
         });
     }
