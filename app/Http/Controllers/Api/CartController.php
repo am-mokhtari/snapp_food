@@ -4,18 +4,18 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\CartsResource;
+use App\Http\Resources\OrderResource;
 use App\Models\Cart;
 use App\Models\CartItem;
+use App\Models\Food;
 use App\Models\Order;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class CartController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function index(): JsonResponse
     {
         $carts = Auth::user()->carts->where('is_closed', '=', false);
         $list = [];
@@ -28,23 +28,16 @@ class CartController extends Controller
         return response()->json(["Carts" => CartsResource::collection($list)]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function store(Request $request): JsonResponse
     {
-        $cart = Auth::user()->lastCart()->firstOrCreate(
-            [],
-            ['user_id' => 3, 'is_closed' => false]
-        );
+        $cart = Auth::user()->lastCart()->first();
+        if (is_null($cart)) {
+            $cart = Cart::create([
+                'user_id' => Auth::id(),
+                'is_closed' => false,
+            ]);
+        }
 
         $cartItem = $cart->items->where('food_id', '=', $request['food_id'])->first();
         if (!is_null($cartItem)) {
@@ -53,7 +46,7 @@ class CartController extends Controller
             return $this->update($request);
         }
 
-        $cartItem = CartItem::create(
+        CartItem::create(
             [
                 "cart_id" => $cart->id,
                 "food_id" => $request['food_id'],
@@ -67,11 +60,17 @@ class CartController extends Controller
         ]);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Cart $cart)
+
+    public function show(Cart $cart_id): JsonResponse
     {
+        $cart = Cart::find($cart_id);
+        if (is_null($cart)) {
+            return response()->json(['msg' => 'The Cart does not exists.']);
+
+        } elseif ($cart->user_id != Auth::id()) {
+            return response()->json(['msg' => 'This cart is not for you!']);
+        }
+
         $list['cart'] = $cart;
         foreach ($cart->foods as $food) {
             $food->restaurant;
@@ -80,21 +79,11 @@ class CartController extends Controller
         return response()->json(["Carts" => CartsResource::make($list['cart'])]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request)
+    public function update(Request $request): JsonResponse
     {
         $cart = Auth::user()->lastCart()->first();
-        $cartItem = $cart->items()->get()->where('food_id', '=', $request['food_id'])->first();
+        $cartItem = $cart->items()->where('food_id', '=', $request['food_id'])->first();
         $cartItem->number = $request['count'];
         $cartItem->save();
 
@@ -104,43 +93,62 @@ class CartController extends Controller
         ]);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
 
-    public function pay(Cart $cart)
+    public function pay(string $cart_id): JsonResponse
     {
-        $amount = 0;
-        foreach ($cart->items as $item) {
-            $amount += $item->number * \App\Models\Food::find($item->food_id)->price;
+        $cart = Cart::find($cart_id);
+        if (is_null($cart)) {
+            return response()->json(['msg' => 'The Cart does not exists.']);
+
+        } elseif ($cart->user_id != Auth::id()) {
+            return response()->json(['msg' => 'This cart is not for you!']);
+        } elseif ($cart->is_closed) {
+            return response()->json(['msg' => 'This cart has been paid!']);
         }
-        $amount -= round(($amount * $cart->discountCode()->first()->percents) / 100, -2);
 
+        $items = $cart->items;
+        if (is_null($items)) {
+            return response()->json(['msg' => 'Your cart is empty.']);
+        }
 
-        $order = Order::create([
-            'user_id' => Auth::id(),
-            'cart_id' => $cart->id,
-            'amount' => $amount,
-            'order_status' => 'delivered',
-            'payment_status' => 'paid',
-            'tracking_code' => '',
-        ]);
+        $cartAmount = 0;
+        $restaurantsAmounts = [];
+        foreach ($items as $item) {
+            $amount = $item->number * Food::find($item->food_id)->price;
+
+            if (isset($restaurantsAmounts[$item->restaurant()->id])) {
+                $restaurantsAmounts[$item->restaurant()->id] += $amount;
+            } else {
+                $restaurantsAmounts[$item->restaurant()->id] = $amount;
+            }
+
+            $cartAmount += $amount;
+        }
+
+        $cart->discountCode()->first() ? $percents = $cart->discountCode()->first()->percents : $percents = 0;
+        $payingAmount = $cartAmount - round($cartAmount * ($percents / 100), -2);
+
+        $restaurants = $cart->restaurants();
+        foreach ($restaurants as $restaurant) {
+            $orders[] = Order::create([
+                'user_id' => Auth::id(),
+                'cart_id' => $cart->id,
+                'restaurant_id' => $restaurant->id,
+                'amount' => $restaurantsAmounts[$restaurant->id],
+                'order_status' => 'pending',
+                'payment_status' => 'paid',
+                'tracking_code' => '',
+            ]);
+        }
+
         $cart->is_closed = true;
         $cart->save();
 
         return response()->json([
             "msg" => "Your cart with id:" . $cart->id . " is paid.",
-            "order info" => [
-                "id:" => $order->id,
-                "amount" => $order->amount,
-                "status" => $order->order_status,
-                "payment" => $order->payment_status,
-                "tracking code" => $order->tracking_code,
-            ]
+            "cart amount" => $cartAmount,
+            "paid amount" => $payingAmount,
+            "orders" => OrderResource::collection($orders),
         ]);
     }
 }
