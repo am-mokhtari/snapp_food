@@ -53,7 +53,7 @@ class CommentController extends Controller
     {
         $request->validate([
             'order_id' => ['required', 'numeric', 'exists:' . Order::class . ',id'],
-            'score' => ['required', 'numeric', 'min:0', 'max:5'],
+            'score' => ['required', 'integer', 'min:0', 'max:5'],
             'message' => ['required', 'min:3', 'max:2000', 'unique:'.Comment::class.',content'],
         ]);
 
