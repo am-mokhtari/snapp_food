@@ -9,33 +9,38 @@ use App\Http\Controllers\Api\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-
+//  Apis When Logged In:
 Route::middleware('auth:sanctum')->group(function () {
+    //  User Apis
     Route::get('/user', function (Request $request) {
         return $request->user();
     });
-
-    //  addresses apis
-    Route::get("/addresses", [AddressController::class, 'show']);
-    Route::post("/addresses", [AddressController::class, 'store']);
-    Route::post("/addresses/{address_id}", [AddressController::class, 'update']);
-
-    //    user api
     Route::patch("/user", [UserController::class, 'updateInfo']);
 
-    //    restaurant apis
-    Route::get('/restaurants', [RestaurantController::class, 'index']);
-    Route::get('/restaurants/{restaurant_id}', [RestaurantController::class, 'show']);
+    //  Addresses Apis
+    Route::controller(AddressController::class)
+        ->group(function () {
+            Route::get("/addresses", 'show');
+            Route::post("/addresses", 'store');
+            Route::post("/addresses/{address_id}", 'update')->whereNumber('address_id');
+        });
 
-    //    Carts apis
+    //    Restaurant Apis
+    Route::controller(RestaurantController::class)
+        ->group(function () {
+            Route::get('/restaurants', 'index');
+            Route::get('/restaurants/{restaurant_id}', 'show')->whereNumber('restaurant_id');
+        });
+
+    //    Carts Apis
     Route::prefix('/carts')
         ->controller(CartController::class)
         ->group(function () {
             Route::get('/', 'index');
             Route::post('/add', 'store');
             Route::patch('/add', 'update');
-            Route::get('/{cart}', 'show')->whereNumber("cart");
-            Route::post('/{cart}/pay', 'pay')->whereNumber("cart");
+            Route::get('/{cart_id}', 'show')->whereNumber("cart_id");
+            Route::post('/{cart_id}/pay', 'pay')->whereNumber("cart_id");
         });
 
     //     Comments
@@ -46,10 +51,15 @@ Route::middleware('auth:sanctum')->group(function () {
         });
 });
 
-//    Foods api
+
+//  Apis Without Login:
+//      Foods Api
 Route::get('/restaurants/{restaurant_id}/foods', [FoodController::class, 'show']);
 
-//  authenticate apis
-Route::post('/login', [UserController::class, 'login']);
-Route::post('/register', [UserController::class, 'register']);
-Route::post('/logout', [UserController::class, 'logout']);
+//      Authenticate Apis
+Route::controller(UserController::class)
+    ->group(function () {
+        Route::post('/login', 'login');
+        Route::post('/register', 'register');
+        Route::post('/logout', 'logout');
+    });

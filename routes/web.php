@@ -9,17 +9,7 @@ use App\Http\Controllers\SellerController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
-
+//  Intro
 Route::get('/', function () {
     return redirect()->route('dashboard');
 });
@@ -29,65 +19,99 @@ Route::get('/dashboard', function () {
     return redirect('dashboard/' . $role);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::middleware('auth')->group(function () {
-//    profile
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-
-//    dashboard
-    Route::resource('/dashboard/admin', AdminController::class);
-    Route::resource('/dashboard/seller', SellerController::class)
-    ->middleware('exist.restaurant.info');
-
-//        ADMIN
-//    restaurant type
-    Route::get('/restaurantTypeEdit/{id}', [RestaurantTypeController::class, 'edit'])
-        ->name('restaurantTypeEdit');
-    Route::post('/restaurantTypeEdit', [RestaurantTypeController::class, 'update'])
-        ->name('restaurantTypeEdit');
-
-    Route::post('/restaurantTypeDelete', [RestaurantTypeController::class, 'destroy'])
-        ->name('restaurantTypeDelete');
-
-    Route::get('/newRestaurantType', [RestaurantTypeController::class, 'create'])
-        ->name('newRestaurantType');
-    Route::post('/newRestaurantType', [RestaurantTypeController::class, 'store'])
-        ->name('newRestaurantType');
-
-//    food category
-    Route::get('/foodCategoryEdit/{id}', [FoodCategoryController::class, 'edit'])
-        ->name('foodCategoryEdit');
-    Route::post('/foodCategoryEdit', [FoodCategoryController::class, 'update'])
-        ->name('foodCategoryEdit');
-
-    Route::post('/foodCategoryDelete', [FoodCategoryController::class, 'destroy'])
-        ->name('foodCategoryDelete');
-
-    Route::get('/newFoodCategory', [FoodCategoryController::class, 'create'])
-        ->name('newFoodCategory');
-    Route::post('/newFoodCategory', [FoodCategoryController::class, 'store'])
-        ->name('newFoodCategory');
-
-//    discount
-    Route::get('/discountCodeEdit/{id}', [DiscountCodeController::class, 'edit'])
-        ->name('discountCodeEdit');
-    Route::post('/discountCodeEdit', [DiscountCodeController::class, 'update'])
-        ->name('discountCodeEdit');
-
-    Route::post('/discountCodeDelete', [DiscountCodeController::class, 'destroy'])
-        ->name('discountCodeDelete');
-
-    Route::get('/newDiscount', [DiscountCodeController::class, 'create'])
-        ->name('newDiscount');
-    Route::post('/newDiscount', [DiscountCodeController::class, 'store'])
-        ->name('newDiscount');
+//--------Test
+Route::get('/t', function () {
+    dd();
 });
 
-//   SELLER
-//     restaurant basic info
+//  Apis When Logged In:
+Route::middleware('auth')->group(function () {
+
+    //  Dashboards:
+    Route::resource('/dashboard/admin', AdminController::class);
+    Route::resource('/dashboard/seller', SellerController::class)
+        ->middleware('exist.restaurant.info');
+
+
+    //  Profile
+    Route::controller(ProfileController::class)
+        ->group(function () {
+            Route::get('/profile', 'edit')->name('profile.edit');
+            Route::patch('/profile', 'update')->name('profile.update');
+            Route::delete('/profile', 'destroy')->name('profile.destroy');
+        });
+
+    //  ADMIN {
+    //      Restaurant Type
+    Route::controller(RestaurantTypeController::class)
+        ->group(function () {
+            Route::get('/restaurantTypeEdit/{id}', 'edit')
+                ->whereNumber('id')
+                ->name('restaurantTypeEdit');
+
+            Route::post('/restaurantTypeEdit', 'update')
+                ->name('restaurantTypeEdit');
+
+            Route::post('/restaurantTypeDelete', 'destroy')
+                ->name('restaurantTypeDelete');
+
+            Route::get('/newRestaurantType', 'create')
+                ->name('newRestaurantType');
+
+            Route::post('/newRestaurantType', 'store')
+                ->name('newRestaurantType');
+        });
+
+
+    //      Food Category
+    Route::controller(FoodCategoryController::class)
+        ->group(function () {
+            Route::get('/foodCategoryEdit/{id}', 'edit')
+                ->whereNumber('id')
+                ->name('foodCategoryEdit');
+
+            Route::post('/foodCategoryEdit', 'update')
+                ->name('foodCategoryEdit');
+
+            Route::post('/foodCategoryDelete', 'destroy')
+                ->name('foodCategoryDelete');
+
+            Route::get('/newFoodCategory', 'create')
+                ->name('newFoodCategory');
+
+            Route::post('/newFoodCategory', 'store')
+                ->name('newFoodCategory');
+        });
+
+    //      Discount
+    Route::controller(DiscountCodeController::class)
+        ->group(function () {
+            Route::get('/discountCodeEdit/{id}', 'edit')
+                ->whereNumber('id')
+                ->name('discountCodeEdit');
+
+            Route::post('/discountCodeEdit', 'update')
+                ->name('discountCodeEdit');
+
+            Route::post('/discountCodeDelete', 'destroy')
+                ->name('discountCodeDelete');
+
+            Route::get('/newDiscount', 'create')
+                ->name('newDiscount');
+
+            Route::post('/newDiscount', 'store')
+                ->name('newDiscount');
+        });
+//    } End Of Admin Routs
+});
+
+//  SELLER
+//      Restaurant Basic Info
 Route::get('/restaurant/info/{id}', [SellerController::class, 'edit'])
+    ->whereNumber('id')
     ->name('restaurant.info.edit');
-Route::post('/restaurant/{id}/info', [SellerController::class, 'update']);
+
+Route::post('/restaurant/{id}/info', [SellerController::class, 'update'])
+    ->whereNumber('id');
 
 require __DIR__ . '/auth.php';
