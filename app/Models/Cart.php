@@ -51,6 +51,6 @@ class Cart extends Model
         foreach ($this->foods()->get() as $food) {
             $restaurants[] = $food->restaurant;
         }
-        return $restaurants;
+        return collect($restaurants)->unique();
     }
 }
