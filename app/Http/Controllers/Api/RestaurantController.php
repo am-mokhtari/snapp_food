@@ -4,16 +4,12 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\RestaurantResource;
-use App\Models\Address;
 use App\Models\Restaurant;
 use App\Models\RestaurantType;
 use Illuminate\Http\Request;
 
 class RestaurantController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index(Request $request)
     {
         $request->validate([
@@ -38,13 +34,13 @@ class RestaurantController extends Controller
         return RestaurantResource::collection($restaurants->get());
     }
 
-    /**
-     * Display the specified resource.
-     */
+
     public function show(string $restaurant_id)
     {
         $restaurant = Restaurant::find($restaurant_id);
+        if (is_null($restaurant)){
+            return response()->json(['msg' => 'the restaurant does not exists.']);
+        }
         return RestaurantResource::make($restaurant);
     }
-
 }
