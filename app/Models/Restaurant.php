@@ -49,6 +49,13 @@ class Restaurant extends Model
         return $this->belongsTo(RestaurantType::class);
     }
 
+    protected function phoneNumber(): Attribute
+    {
+        return Attribute::make(
+            set: fn(string $value) => '0' . $value,
+        );
+    }
+
     public function comments()
     {
         $orders = $this->orders;
@@ -66,12 +73,5 @@ class Restaurant extends Model
             return null;
         }
         return $comments;
-    }
-
-    protected function phoneNumber(): Attribute
-    {
-        return Attribute::make(
-            set: fn(string $value) => '0' . $value,
-        );
     }
 }
