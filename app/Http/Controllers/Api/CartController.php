@@ -8,7 +8,9 @@ use App\Http\Resources\OrderResource;
 use App\Models\Cart;
 use App\Models\CartItem;
 use App\Models\Food;
+use App\Models\Number;
 use App\Models\Order;
+use App\Notifications\CartPaid;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -97,6 +99,7 @@ class CartController extends Controller
     public function pay(string $cart_id): JsonResponse
     {
         $cart = Cart::find($cart_id);
+
         if (is_null($cart)) {
             return response()->json(['msg' => 'The Cart does not exists.']);
 
@@ -144,10 +147,13 @@ class CartController extends Controller
         $cart->is_closed = true;
         $cart->save();
 
+        Auth::user()->notify(new CartPaid($cart->id, $cartAmount, $payingAmount, $orders));
+
         return response()->json([
-            "msg" => "Your cart with id:" . $cart->id . " is paid.",
-            "cart amount" => $cartAmount,
-            "paid amount" => $payingAmount,
+            "msg" => "Your cart with id: " . $cart->id . " is paid.",
+            "cart amount" => Number::doReadable($cartAmount),
+            "paid amount" => Number::doReadable($payingAmount),
+            "discount amount" => Number::doReadable($cartAmount - $payingAmount),
             "orders" => OrderResource::collection($orders),
         ]);
     }
