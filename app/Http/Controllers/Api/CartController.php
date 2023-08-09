@@ -10,6 +10,7 @@ use App\Models\CartItem;
 use App\Models\Food;
 use App\Models\Number;
 use App\Models\Order;
+use App\Notifications\CartCreated;
 use App\Notifications\CartPaid;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -39,6 +40,8 @@ class CartController extends Controller
                 'user_id' => Auth::id(),
                 'is_closed' => false,
             ]);
+
+            Auth::user()->notify(new CartCreated($cart->id));
         }
 
         $cartItem = $cart->items->where('food_id', '=', $request['food_id'])->first();
