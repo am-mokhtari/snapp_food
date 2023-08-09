@@ -2,7 +2,7 @@
 
 namespace App\Http\Resources;
 
-use App\Models\Restaurant;
+use App\Models\Number;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -18,7 +18,7 @@ class OrderResource extends JsonResource
         return [
             'id' => $this->id,
             'restaurant' => $this->restaurant()->first()->name,
-            'amount' => $this->amount,
+            'amount' => Number::doReadable($this->amount),
             'order status' => $this->order_status,
             'payment status' => $this->payment_status,
             'tracking code' => $this->tracking_code,

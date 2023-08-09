@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Models\Number;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -17,7 +18,7 @@ class FoodResource extends JsonResource
         return [
             "id" => $this->id,
             "name" => $this->name,
-            "price" => $this->price,
+            "price" => Number::doReadable($this->price),
             "ingredient" => empty($this->ingredient) ? "none" :  $this->ingredient,
             "picture" => empty($this->picture) ? "none" :  $this->picture,
         ];
