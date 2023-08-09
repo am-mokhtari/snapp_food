@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Helpers\Number;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\CartsResource;
 use App\Http\Resources\OrderResource;
 use App\Models\Cart;
 use App\Models\CartItem;
 use App\Models\Food;
-use App\Models\Number;
 use App\Models\Order;
 use App\Notifications\CartCreated;
 use App\Notifications\CartPaid;
