@@ -19,9 +19,6 @@ class CartPaid extends Notification
     private float $discountAmount;
     private array $orders;
 
-    /**
-     * Create a new notification instance.
-     */
     public function __construct($cartId, $cartAmount, $paidAmount, $orders)
     {
         $this->cartId = $cartId;
@@ -60,17 +57,4 @@ class CartPaid extends Notification
 
         return $mail->lines($orders);
     }
-
-
-//    /**
-//     * Get the array representation of the notification.
-//     *
-//     * @return array<string, mixed>
-//     */
-//    public function toArray(object $notifiable): array
-//    {
-//        return [
-//            //
-//        ];
-//    }
 }
