@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Notifications\UserInfoUpdated;
 use App\Rules\PhoneNumber;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -25,18 +26,35 @@ class UserController extends Controller
             'phone_number' => ['numeric', 'unique:' . User::class, new PhoneNumber],
         ]);
 
+        $changes = [];
         $user = Auth::user();
-        $user->name = $request->name ?? $user->name;
-        $user->email = $request->email ?? $user->email;
-        $user->phone_number = $request->phone_number ?? $user->phone_number;
-        $user->password = $request->password ?? $user->password;
-        $user->save();
-        return response()->json(['msg' => 'your info is updated successfully.']);
+
+        if (isset($request->name)) {
+            $user->name = $request->name;
+            $changes[] = "name";
+        }
+        if (isset($request->email)) {
+            $user->email = $request->email;
+            $changes[] = "email";
+        }
+        if (isset($request->phone_number)) {
+            $user->phone_number = $request->phone_number;
+            $changes[] = "phone number";
+        }
+        if (isset($request->password)) {
+            $user->password = Hash::make($request->password);
+            $changes[] = "password";
+        }
+        if (empty($changes)) {
+            return response()->json(["msg" => "Enter a value for change information"]);
+        } else {
+            $user->save();
+            $user->notify(new UserInfoUpdated($changes));
+            return response()->json(['msg' => 'your info is updated successfully.']);
+        }
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+
     public function login(Request $request): \Illuminate\Http\JsonResponse
     {
         $username = [];
@@ -59,9 +77,7 @@ class UserController extends Controller
         }
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
+
     public function register(Request $request): \Illuminate\Http\JsonResponse
     {
         if (isset($request->phone_number)) {
@@ -88,6 +104,7 @@ class UserController extends Controller
             "msg" => "You are signed up successfully. Your Token is: " . $token->plainTextToken . ". Dont Forget It."
         ]);
     }
+
 
     public function logout(Request $request)
     {
