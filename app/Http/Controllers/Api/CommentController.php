@@ -8,6 +8,7 @@ use App\Models\Comment;
 use App\Models\Food;
 use App\Models\Order;
 use App\Models\Restaurant;
+use App\Notifications\CommentPosted;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -72,6 +73,7 @@ class CommentController extends Controller
             'content' => Str::of($request['message'])->trim(),
         ]);
 
+        Auth::user()->notify(new CommentPosted($comment));
         return response()->json(['msg' => "comment created successfully"]);
     }
 }
