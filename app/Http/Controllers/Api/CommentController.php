@@ -18,7 +18,7 @@ class CommentController extends Controller
     public function index(Request $request)
     {
 //        ----------- base on food_id
-        if (isset($request['food_id'])) {
+        if ($request->has('food_id')) {
             $food = Food::find($request['food_id']);
             if (is_null($food)) {
                 return response()->json(['msg' => 'food_id is incorrect.']);
@@ -32,7 +32,7 @@ class CommentController extends Controller
 
         }
 //        ----------- base on restaurant_id
-        else if (isset($request['restaurant_id'])) {
+        else if ($request->has('restaurant_id')) {
 
             $restaurant = Restaurant::find($request['restaurant_id']);
             if (is_null($restaurant)) {

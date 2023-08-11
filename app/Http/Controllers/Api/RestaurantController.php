@@ -20,13 +20,13 @@ class RestaurantController extends Controller
 
         $restaurants = Restaurant::with('address')->with('type')->whereHas('address');
 
-        if ($request->is_open) {
+        if ($request->has('is_open')) {
             $restaurants = $restaurants->where('is_open', true);
         }
-        if ($request->score_gt) {
+        if ($request->has('score_gt')) {
             $restaurants = $restaurants->orderBy('score', 'desc');
         }
-        if (isset($request->type)) {
+        if ($request->has('type')) {
             $type = RestaurantType::where("title", 'like', '%'.$request->type.'%')->get();
             $restaurants = $restaurants->where('type_id', $type[0]->id);
         }

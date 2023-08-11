@@ -16,7 +16,7 @@ class UserController extends Controller
 {
     public function updateInfo(Request $request)
     {
-        if (isset($request->phone_number)) {
+        if ($request->has('phone_number')) {
             $request->phone_number = strrev((str_split(strrev($request->phone_number), 10))[0]);
         }
 
@@ -29,19 +29,19 @@ class UserController extends Controller
         $changes = [];
         $user = Auth::user();
 
-        if (isset($request->name)) {
+        if ($request->has('name')) {
             $user->name = $request->name;
             $changes[] = "name";
         }
-        if (isset($request->email)) {
+        if ($request->has('email')) {
             $user->email = $request->email;
             $changes[] = "email";
         }
-        if (isset($request->phone_number)) {
+        if ($request->has('phone_number')) {
             $user->phone_number = $request->phone_number;
             $changes[] = "phone number";
         }
-        if (isset($request->password)) {
+        if ($request->has('password')) {
             $user->password = Hash::make($request->password);
             $changes[] = "password";
         }
@@ -80,7 +80,7 @@ class UserController extends Controller
 
     public function register(Request $request): \Illuminate\Http\JsonResponse
     {
-        if (isset($request->phone_number)) {
+        if ($request->has('phone_number')) {
             $request->phone_number = strrev((str_split(strrev($request->phone_number), 10))[0]);
         }
 
