@@ -19,10 +19,6 @@ Route::get('/dashboard', function () {
     return redirect('dashboard/' . $role);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-//--------Test
-Route::get('/t', function () {
-    dd();
-});
 
 //  Apis When Logged In:
 Route::middleware('auth')->group(function () {
