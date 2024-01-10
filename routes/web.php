@@ -99,15 +99,21 @@ Route::middleware('auth')->group(function () {
                 ->name('newDiscount');
         });
 //    } End Of Admin Routs
+
+
+    //  SELLER
+    //      Restaurant Basic Info
+    Route::middleware('restaurant.owner')
+        ->controller(SellerController::class)
+        ->group(function () {
+            Route::get('/restaurant/info/{id}', 'edit')
+                ->whereNumber('id')
+                ->name('restaurant.info.edit');
+
+            Route::post('/restaurant/{id}/info', 'update')
+                ->whereNumber('id');
+        });
 });
 
-//  SELLER
-//      Restaurant Basic Info
-Route::get('/restaurant/info/{id}', [SellerController::class, 'edit'])
-    ->whereNumber('id')
-    ->name('restaurant.info.edit');
-
-Route::post('/restaurant/{id}/info', [SellerController::class, 'update'])
-    ->whereNumber('id');
 
 require __DIR__ . '/auth.php';

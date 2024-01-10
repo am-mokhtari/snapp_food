@@ -11,15 +11,11 @@ use Symfony\Component\HttpFoundation\Response;
 
 class EnsureRestaurantInfoExists
 {
-    /**
-     * Handle an incoming request.
-     *
-     * @param \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response) $next
-     */
     public function handle(Request $request, Closure $next): Response
     {
         $id = Auth::id();
         $restaurants = Restaurant::where('user_id', $id)->get();
+
         $unavailableInfo = true;
 
         foreach ($restaurants as $restaurant) {
@@ -30,7 +26,7 @@ class EnsureRestaurantInfoExists
                 empty($restaurant->user_id) ||
                 empty($restaurant->type_id) ||
                 empty($restaurant->phone_number) ||
-                empty($restaurant->address) ||
+                empty($restaurant->address_id) ||
                 empty($restaurant->account_number)
             ) {
                 return Redirect::route('restaurant.info.edit', [$restaurant->id]);

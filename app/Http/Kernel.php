@@ -64,5 +64,6 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'exist.restaurant.info' => \App\Http\Middleware\EnsureRestaurantInfoExists::class,
+        'restaurant.owner' => \App\Http\Middleware\CheckOwnerOfTheRestaurant::class,
     ];
 }

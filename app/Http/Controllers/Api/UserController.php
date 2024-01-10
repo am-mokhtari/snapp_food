@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Helpers\Number;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Notifications\UserInfoUpdated;
@@ -17,7 +18,7 @@ class UserController extends Controller
     public function updateInfo(Request $request)
     {
         if ($request->has('phone_number')) {
-            $request->phone_number = strrev((str_split(strrev($request->phone_number), 10))[0]);
+            $request['phone_number'] = Number::CorrectPhN($request['phone_number']);
         }
 
         $request->validate([
@@ -58,11 +59,11 @@ class UserController extends Controller
     public function login(Request $request): \Illuminate\Http\JsonResponse
     {
         $username = [];
-        if (is_numeric($request->username)) {
-            $request->username = '0' . strrev((str_split(strrev($request->username), 10))[0]);
-            $username = ['phone_number' => $request->username, 'password' => $request->password];
-        } elseif (preg_match('/^[a-zA-Z].{3,20}@.{3,10}\.[a-zA-Z]{2,10}$/i', $request->username)) {
-            $username = ['email' => $request->username, 'password' => $request->password];
+        if (is_numeric($request['username'])) {
+            $request['username'] = Number::CorrectPhN($request['username']);
+            $username = ['phone_number' => $request['username'], 'password' => $request['password']];
+        } elseif (preg_match('/^[a-zA-Z].{3,20}@.{3,10}\.[a-zA-Z]{2,10}$/i', $request['username'])) {
+            $username = ['email' => $request['username'], 'password' => $request['password']];
         }
 
         if (Auth::attempt($username)) {
@@ -81,7 +82,7 @@ class UserController extends Controller
     public function register(Request $request): \Illuminate\Http\JsonResponse
     {
         if ($request->has('phone_number')) {
-            $request->phone_number = strrev((str_split(strrev($request->phone_number), 10))[0]);
+            $request['phone_number'] = Number::CorrectPhN($request['phone_number']);
         }
 
         $request->validate([

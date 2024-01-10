@@ -45,4 +45,11 @@ class Number
 
         return $output;
     }
+
+
+//    correct the phone number
+    public static function CorrectPhN($phoneNumber): string
+    {
+        return '0' . strrev((str_split(strrev($phoneNumber), 10))[0]);
+    }
 }

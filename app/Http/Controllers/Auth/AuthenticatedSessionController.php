@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Helpers\Number;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Providers\RouteServiceProvider;
@@ -25,8 +26,8 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(LoginRequest $request): RedirectResponse
     {
-        if (is_numeric($request->username)) {
-            $request->username = '0' . strrev((str_split(strrev($request->username), 10))[0]);
+        if (is_numeric($request['username'])) {
+            $request['username'] = Number::CorrectPhN($request['username']);
         }
 
         $request->authenticate();

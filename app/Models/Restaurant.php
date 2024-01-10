@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Helpers\Number;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -19,8 +20,8 @@ class Restaurant extends Model
         'phone_number',
         'account_number',
         'score',
+        'address_id',
         'is_open',
-        'address_id ',
     ];
 
     protected $hidden = [
@@ -52,7 +53,7 @@ class Restaurant extends Model
     protected function phoneNumber(): Attribute
     {
         return Attribute::make(
-            set: fn(string $value) => '0' . $value,
+            set: fn(string $value) => Number::CorrectPhN($value),
         );
     }
 
